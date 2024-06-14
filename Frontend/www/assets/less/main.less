@@ -8,6 +8,7 @@ body{
     margin:0;
 }
 main{
+    min-width: 0;
     flex: 3;
     display: flex;
     flex-direction: column;
@@ -124,28 +125,36 @@ footer{
     color:white;
     align-items: center;
 }
-.pizza-filter{
+.pizza-filter-container{
+    min-width: 0;
+    min-height: 0;
+    flex: 0 1 auto;
     padding: 10px;
     font-weight: bold;
     display: flex;
     justify-content: center;
 }
 .pizza-filter-option{
+    min-width: 0;
+    min-height: 0;
+    flex: 0 1 auto;
     color: orange;
     padding: 5px;
-    flex-grow: 1;
 }
 .active{
     .quantity();
     color:white;
 }
 .pizza-list{
+    padding-top: 30px;
+    max-width: 1300px;
     display: flex;
     flex-wrap: wrap;
     column-count: 3;
 }
 .pizza-item-container{
     width: 33.33%;
+    position: relative;
 }
 .pizza-item{
     box-sizing: border-box;
@@ -191,6 +200,7 @@ footer{
 .pizza-price{
     display: flex;
     align-items: center;
+    text-align: center;
     flex-direction: column;
     font-weight: bold;
     font-size:25px;
@@ -388,6 +398,52 @@ footer{
     width: 90%;
 }
 
-// .p{
-//     color: red !important;
-// }
+.unique-new, .unique-popular{
+    text-align: center;
+    position: absolute;
+    color:white;
+    font-weight: bold;
+    padding: 5px;
+    right: 0px;
+    top:0px;
+    border-radius: 7px;
+}
+.unique-new{
+    background-color: red;
+}
+.unique-popular{
+    background-color: rgb(203, 148, 101);
+}
+
+@media (max-width: 1250px){
+    .pizza-item-container{
+        width: 50%;
+    }
+    .hideable:last-of-type{
+        display: none;
+    }
+}
+@media (max-width: 850px){
+    .pizza-item-container{
+        width: 100%;
+    }
+    .hideable{
+        display: none;
+    }
+    .hideable:first-of-type{
+        display: initial;
+    }
+}
+@media(max-width: 650px){
+    body{
+        flex-direction: column;
+    }
+    .cart-container{
+        width: 100%;
+    }
+    .cart{
+        display: flex;
+        position: static;
+        width: 100%;
+    }
+}
