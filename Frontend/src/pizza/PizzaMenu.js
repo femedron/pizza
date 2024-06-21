@@ -42,10 +42,7 @@ function filterPizza(filter) {
 
     Pizza_List.forEach(function(pizza){
         //Якщо піка відповідає фільтру
-        if(filter == 'vega'){
-            if(pizza.type.toLowerCase().includes('вега'))
-                pizza_shown.push(pizza);
-        } else if(filter in pizza.content)
+        if(filter in pizza.content)
             pizza_shown.push(pizza);
     });
 

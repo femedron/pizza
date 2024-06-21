@@ -104,7 +104,8 @@ var pizza_info = [
         content: {
             cheese: ['сир моцарелла', 'сир домашній'],
             tomato: ['помідори'],
-            additional: ['базилік', 'оливкова олія', 'соус томатний']
+            additional: ['базилік', 'оливкова олія', 'соус томатний'],
+            vega: true
         },
         small_size:{
             weight: 370,
