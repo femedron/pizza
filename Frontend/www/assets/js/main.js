@@ -201,9 +201,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
-    PizzaMenu.initialiseMenu();
-
-    PizzaMenu.initialiseMenu();  
 
 });
 
@@ -273,19 +270,32 @@ function updateCart() {
 
         var $node = $(html_code);
 
-        $node.find(".plus").click(function(){
+        $node.find(".order-plus-button").click(function(){
             //Збільшуємо кількість замовлених піц
             cart_item.quantity += 1;
 
             //Оновлюємо відображення
             updateCart();
         });
+        $node.find(".order-minus-button").click(function(){
+          //Збільшуємо кількість замовлених піц
+          if(cart_item.quantity == 1){
+            removeFromCart(cart_item);
+          }else{
+            cart_item.quantity -= 1;
+            //Оновлюємо відображення
+            updateCart();
+          }
+        });
+        $node.find(".order-remove-button").click(function(){
+          removeFromCart(cart_item);
+        });
 
         $cart.append($node);
     }
 
     Cart.forEach(showOnePizzaInCart);
-
+    
 }
 
 exports.removeFromCart = removeFromCart;
