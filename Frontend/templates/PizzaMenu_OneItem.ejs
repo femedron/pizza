@@ -17,7 +17,7 @@ function getIngredientsArray(pizza) {
 }
 
    %>
-<div class="col-md-6 col-lg-4 pizza-card">
+<!-- <div class="col-md-6 col-lg-4 pizza-card">
     <div class="thumbnail">
         <img class="pizza-icon" src="<%= pizza.icon %>" alt="Pizza">
 
@@ -35,7 +35,56 @@ function getIngredientsArray(pizza) {
             </div>
         </div>
 
-        <!-- Перед тим щоб показати кнопку необхідно переконатися, що піца має великий розмір -->
         <button class="btn btn-primary buy-big">Купити велику</button>
     </div>
+</div> -->
+
+<div class="pizza-item-container">
+    <div class="pizza-item">
+        <div class="image-container">
+            <img class="image" src="<%= pizza.icon %>" alt="Pizza"/> <!--src="assets/images/pizza_1.jpg"-->
+        </div>
+        <div class="pizza-name"><%= pizza.title %></div>
+        <div class="pizza-category"><%= pizza.type %></div>
+        <div class="pizza-desc"><%= getIngredientsArray(pizza).join(", ") %></div>
+        <div class="pizza-variants-container">
+            <% if('small_size' in pizza) { %>
+                <div class="pizza-variant">
+                    <div class="pizza-variant-parameters">
+                        <div class="pizza-diameter">
+                            <img src="assets/images/size-icon.svg"/>
+                            <span class="pizza-diameter-value"><%= pizza.small_size.size %></span>
+                        </div>
+                        <div class="pizza-weight">
+                            <img src="assets/images/weight.svg"/>
+                            <span class="pizza-weight-value"><%= pizza.small_size.weight %></span>
+                        </div>
+                    </div>
+                    <div class="pizza-price"><%= pizza.small_size.price %><br>грн</div>
+                    <div class="pizza-buy-button buy-small">Купити</div>
+                </div>
+            <% } %>
+            <% if('big_size' in pizza) { %>
+                <div class="pizza-variant">
+                    <div class="pizza-variant-parameters">
+                        <div class="pizza-diameter">
+                            <img src="assets/images/size-icon.svg"/>
+                            <span class="pizza-diameter-value"><%= pizza.big_size.size %></span>
+                        </div>
+                        <div class="pizza-weight">
+                            <img src="assets/images/weight.svg"/>
+                            <span class="pizza-weight-value"><%= pizza.big_size.weight %></span>
+                        </div>
+                    </div>
+                    <div class="pizza-price"><%= pizza.big_size.price %><br>грн</div>
+                    <div class="pizza-buy-button buy-big">Купити</div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <% if(pizza.is_new) { %>
+        <div class="unique-new">Нова</div>
+    <% } else if(pizza.is_popular) {%>
+        <div class="unique-popular">Популярна</div>
+    <% } %>
 </div>
