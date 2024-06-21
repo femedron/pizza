@@ -80,7 +80,7 @@ function updateCart() {
         let curPrice = cart_item.quantity*cart_item.pizza[cart_item.size].price;
         //for setting up price
         const obj = structuredClone(cart_item);
-        obj.pizza[obj.size].price = curPrice
+        obj.pizza[obj.size].price = curPrice;
         var html_code = Templates.PizzaCart_OneItem(obj);
         
         var $node = $(html_code);
