@@ -18,12 +18,18 @@ var $cart = $(".cart-orders-container");
 function addToCart(pizza, size) {
     //Додавання однієї піци в кошик покупок
 
-    //Приклад реалізації, можна робити будь-яким іншим способом
-    Cart.push({
+    const newItem = {
         pizza: pizza,
         size: size,
         quantity: 1
-    });
+    };
+    const prevItem = Cart.find(obj => (obj.pizza == newItem.pizza) && (obj.size == newItem.size));
+    //Already exists
+    if(prevItem != null ){
+        prevItem.quantity += 1;
+    }else{
+        Cart.push(newItem);
+    }
 
     //Оновити вміст кошика на сторінці
     updateCart();
