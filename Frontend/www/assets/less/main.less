@@ -243,6 +243,7 @@ footer{
     top: 0;
     width: inherit;
     height: 100vh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     box-shadow: -3px -1px 14px 1px rgba(0, 0, 0, 0.2);
@@ -253,8 +254,32 @@ footer{
     display: flex;
     background-color: white;
     height: 100px;
+    min-height: 100px;
     width: 100%;
     border-bottom: 1px solid black;
+}
+.cart-orders-container{
+    flex: 1;
+    max-height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.cart-proceed-container{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    font-size: 20px;
+    width: inherit;
+    height: 150px;
+    min-height: 150px;
+    justify-content: center;
+    align-items: center;
+    // position: fixed;
+    // bottom: 0px;
+    border-top: 1px solid black;
 }
 .cart-count-label{
     display: flex;
@@ -278,20 +303,17 @@ footer{
     text-decoration: underline;
     cursor: pointer;
 }
-.cart-orders-container{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
 .cart-order{
+    box-sizing: border-box;
     padding: 15px 0 15px 15px;
-    height: 120px;
-    min-height: 0;
+    height: 150px;
+    min-height: 150px;
     border-bottom: 2px solid darkgrey;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
+    overflow: hidden;
 }
 .order-info{
     display:flex;
@@ -299,13 +321,16 @@ footer{
     align-items: flex-start;
     justify-content: center;
 
-    height: inherit;
+    max-width: 220px;
+    height: auto;
 }
 .order-name{
     color:orange;
     font-size: 20px;
     font-weight: bold;
     white-space: initial;
+}
+.order-name-size{
 }
 .order-parameters{
     .pizza-variant-parameters();
@@ -370,25 +395,13 @@ footer{
 
 .order-image{
     width: fit-content;
+    max-width: 120px;
     flex: 0 0 auto;
     position: absolute;
-    height: 85%;
+    max-height: 85%;
     --height: height;
     right: -70px;
     height: inherit;
-}
-.cart-proceed-container{
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    font-size: 20px;
-    width: inherit;
-    height: 150px;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 0px;
-    border-top: 1px solid black;
 }
 .cart-total-price-container, .cart-buy-button-container{
     display: flex;

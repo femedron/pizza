@@ -29,6 +29,7 @@ function showPizzaList(list) {
     }
 
     list.forEach(showOnePizza);
+    document.querySelector(".pizza-count-label .quantity").textContent = list.length;
 }
 
 function filterPizza(filter) {

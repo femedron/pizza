@@ -13,7 +13,7 @@ var PizzaSize = {
 var Cart = [];
 
 //HTML едемент куди будуть додаватися піци
-var $cart = $("#cart");
+var $cart = $(".cart-orders-container");
 
 function addToCart(pizza, size) {
     //Додавання однієї піци в кошик покупок
@@ -60,22 +60,44 @@ function updateCart() {
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
         var html_code = Templates.PizzaCart_OneItem(cart_item);
-
+        
         var $node = $(html_code);
 
-        $node.find(".plus").click(function(){
+        if(cart_item.size == PizzaSize.Big){
+            $node.find('.order-name-size').text(" (Велика)");
+        } else if(cart_item.size == PizzaSize.Small){
+            $node.find('.order-name-size').text(" (Мала)");
+        }
+
+        $node.find(".order-plus-button").click(function(){
             //Збільшуємо кількість замовлених піц
             cart_item.quantity += 1;
 
             //Оновлюємо відображення
             updateCart();
         });
+        $node.find(".order-minus-button").click(function(){
+          //Збільшуємо кількість замовлених піц
+          if(cart_item.quantity == 1){
+            removeFromCart(cart_item);
+          }else{
+            cart_item.quantity -= 1;
+            //Оновлюємо відображення
+            updateCart();
+          }
+        });
+        $node.find(".order-remove-button").click(function(){
+          removeFromCart(cart_item);
+        });
 
         $cart.append($node);
+        count = count + cart_item.quantity;
     }
 
+    let count = 0;
     Cart.forEach(showOnePizzaInCart);
 
+    document.querySelector('.cart-count-quantity').textContent = count;
 }
 
 exports.removeFromCart = removeFromCart;
