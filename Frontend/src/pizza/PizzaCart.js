@@ -52,6 +52,11 @@ function initialiseCart() {
         Cart = JSON.parse(storedCart);
     }
 
+    $('.clear-cart-button').click(function(){
+        Cart = [];
+        updateCart();
+    });
+
     updateCart();
 }
 
@@ -72,7 +77,11 @@ function updateCart() {
 
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+        let curPrice = cart_item.quantity*cart_item.pizza[cart_item.size].price;
+        //for setting up price
+        const obj = structuredClone(cart_item);
+        obj.pizza[obj.size].price = curPrice
+        var html_code = Templates.PizzaCart_OneItem(obj);
         
         var $node = $(html_code);
 
@@ -105,12 +114,15 @@ function updateCart() {
 
         $cart.append($node);
         count = count + cart_item.quantity;
+        price = price + curPrice;
     }
 
     let count = 0;
+    let price = 0;
     Cart.forEach(showOnePizzaInCart);
 
     document.querySelector('.cart-count-quantity').textContent = count;
+    document.querySelector('.cart-total-price').childNodes[0].nodeValue = price;
     saveCart();
 }
 

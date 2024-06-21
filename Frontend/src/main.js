@@ -11,5 +11,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     Pizza_Filter.initialise();
     PizzaCart.initialiseCart();
-    PizzaMenu.initialiseMenu();  
+    PizzaMenu.initialiseMenu();
 });

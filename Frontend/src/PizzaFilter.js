@@ -6,7 +6,6 @@ function initialise(){
     //add click handlers
     $pizza_filter.children('.pizza-filter-option').each(function(i, obj){
         const filterName = Array.from(obj.classList).find(x => x.startsWith('filter-')).substring('filter-'.length);
-        // alert(filterName);
         $(this).click(function(el){
             activateFilterButton(obj);
             PizzaMenu.filterPizza(filterName);

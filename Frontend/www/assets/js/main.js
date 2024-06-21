@@ -7,7 +7,6 @@ function initialise(){
     //add click handlers
     $pizza_filter.children('.pizza-filter-option').each(function(i, obj){
         const filterName = Array.from(obj.classList).find(x => x.startsWith('filter-')).substring('filter-'.length);
-        // alert(filterName);
         $(this).click(function(el){
             activateFilterButton(obj);
             PizzaMenu.filterPizza(filterName);
@@ -230,7 +229,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     Pizza_Filter.initialise();
     PizzaCart.initialiseCart();
-    PizzaMenu.initialiseMenu();  
+    PizzaMenu.initialiseMenu();
 });
 
 },{"./PizzaFilter":1,"./Pizza_List":2,"./pizza/PizzaCart":5,"./pizza/PizzaMenu":6}],5:[function(require,module,exports){
@@ -288,6 +287,11 @@ function initialiseCart() {
         Cart = JSON.parse(storedCart);
     }
 
+    $('.clear-cart-button').click(function(){
+        Cart = [];
+        updateCart();
+    });
+
     updateCart();
 }
 
@@ -308,7 +312,10 @@ function updateCart() {
 
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+        let curPrice = cart_item.quantity*cart_item.pizza[cart_item.size].price;
+        const obj = structuredClone(cart_item);
+        obj.pizza[obj.size].price = curPrice
+        var html_code = Templates.PizzaCart_OneItem(obj);
         
         var $node = $(html_code);
 
@@ -341,12 +348,15 @@ function updateCart() {
 
         $cart.append($node);
         count = count + cart_item.quantity;
+        price = price + curPrice;
     }
 
     let count = 0;
+    let price = 0;
     Cart.forEach(showOnePizzaInCart);
 
     document.querySelector('.cart-count-quantity').textContent = count;
+    document.querySelector('.cart-total-price').childNodes[0].nodeValue = price;
     saveCart();
 }
 
