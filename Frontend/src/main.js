@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const PizzaMenu = require('./pizza/PizzaMenu');
     const PizzaCart = require('./pizza/PizzaCart');
     const Pizza_List = require('./Pizza_List');
+    const Pizza_Filter = require('./PizzaFilter');
 
+    Pizza_Filter.initialise();
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();  
 });

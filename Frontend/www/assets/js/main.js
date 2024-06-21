@@ -1,4 +1,32 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+const PizzaMenu = require('./pizza/PizzaMenu');
+
+const $pizza_filter = $('.pizza-filter-container');
+
+function initialise(){
+    //add click handlers
+    $pizza_filter.children('.pizza-filter-option').each(function(i, obj){
+        const filterName = Array.from(obj.classList).find(x => x.startsWith('filter-')).substring('filter-'.length);
+        // alert(filterName);
+        $(this).click(function(el){
+            activateFilterButton(obj);
+            PizzaMenu.filterPizza(filterName);
+        });
+    });
+}
+
+function activateFilterButton(button){
+    $pizza_filter.children('.pizza-filter-option').each(function(i, obj){
+        if(JSON.stringify(button) == JSON.stringify(obj)){
+            obj.classList.add('active');
+        } else{
+            obj.classList.remove('active');
+        }
+    });
+}
+
+exports.initialise = initialise;
+},{"./pizza/PizzaMenu":6}],2:[function(require,module,exports){
 /**
  * Created by diana on 12.01.16.
  */
@@ -176,7 +204,7 @@ var pizza_info = [
 ];
 
 module.exports = pizza_info;
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
@@ -188,7 +216,7 @@ exports.PizzaMenu_OneItem = ejs.compile("<%\n\nfunction getIngredientsArray(pizz
 
 exports.PizzaCart_OneItem = ejs.compile("<!-- <div>\n    <%= pizza.title %> (<%= size %>)\n    <div>Ціна: <%= pizza[size].price %> грн.</div>\n    <div>\n        <button class=\"btn btn-danger minus\">-</button>\n        <span class=\"label label-default\"><%= quantity %></span>\n        <button class=\"btn btn-success plus\">+</button>\n    </div>\n</div> -->\n<div class=\"cart-order\">\n    <div class=\"order-info\">\n        <div class=\"order-name\"><%= pizza.title %><span class=\"order-name-size\"> (<%= size %>)</span></div>\n        <div class=\"order-parameters\"> \n            <div class=\"pizza-diameter\">\n                <img src=\"assets/images/size-icon.svg\"/>\n                <span class=\"pizza-diameter-value\"><%= pizza[size].size %></span>\n            </div>\n            <div class=\"pizza-weight\">\n                <img src=\"assets/images/weight.svg\"/>\n                <span class=\"pizza-weight-value\"><%= pizza[size].weight %></span>\n            </div>\n        </div>\n        <div class=\"order-controls\">\n            <div class=\"order-price\">\n                <span class=\"price\"><%= pizza[size].price %></span>\n                <span class=\"currency\">грн</span>\n            </div>\n            <span class=\"order-minus-button\">-</span>\n            <span class=\"order-quantity\"><%= quantity %></span>\n            <span class=\"order-plus-button\">+</span>\n            <span class=\"order-remove-button\">×</span>\n        </div>\n    </div>\n    <img src=\"<%= pizza.icon %>\" class=\"order-image\"/>\n</div>");
 
-},{"ejs":7}],3:[function(require,module,exports){
+},{"ejs":8}],4:[function(require,module,exports){
 /**
  * Created by chaika on 25.01.16.
  */
@@ -198,12 +226,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const PizzaMenu = require('./pizza/PizzaMenu');
     const PizzaCart = require('./pizza/PizzaCart');
     const Pizza_List = require('./Pizza_List');
+    const Pizza_Filter = require('./PizzaFilter');
 
+    Pizza_Filter.initialise();
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();  
 });
 
-},{"./Pizza_List":1,"./pizza/PizzaCart":4,"./pizza/PizzaMenu":5}],4:[function(require,module,exports){
+},{"./PizzaFilter":1,"./Pizza_List":2,"./pizza/PizzaCart":5,"./pizza/PizzaMenu":6}],5:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
@@ -243,7 +273,7 @@ function addToCart(pizza, size) {
 
 function removeFromCart(cart_item) {
     //Видалити піцу з кошика
-    //TODO: треба зробити
+    Cart = Cart.filter(obj => (obj.pizza != cart_item.pizza) || (obj.size != cart_item.size));
 
     //Після видалення оновити відображення
     updateCart();
@@ -252,7 +282,11 @@ function removeFromCart(cart_item) {
 function initialiseCart() {
     //Фукнція віпрацьвуватиме при завантаженні сторінки
     //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
-    //TODO: ...
+    const storedCart = localStorage.getItem('cart');
+
+    if (storedCart) {
+        Cart = JSON.parse(storedCart);
+    }
 
     updateCart();
 }
@@ -261,11 +295,14 @@ function getPizzaInCart() {
     //Повертає піци які зберігаються в кошику
     return Cart;
 }
+function saveCart(){
+    localStorage.setItem('cart', JSON.stringify(Cart));
+}
 
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
-
+    
     //Очищаємо старі піци в кошику
     $cart.html("");
 
@@ -310,6 +347,7 @@ function updateCart() {
     Cart.forEach(showOnePizzaInCart);
 
     document.querySelector('.cart-count-quantity').textContent = count;
+    saveCart();
 }
 
 exports.removeFromCart = removeFromCart;
@@ -319,7 +357,7 @@ exports.getPizzaInCart = getPizzaInCart;
 exports.initialiseCart = initialiseCart;
 
 exports.PizzaSize = PizzaSize;
-},{"../Templates":2}],5:[function(require,module,exports){
+},{"../Templates":3}],6:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
@@ -355,14 +393,20 @@ function showPizzaList(list) {
 }
 
 function filterPizza(filter) {
+    if(filter == 'all'){
+        showPizzaList(Pizza_List);
+        return;
+    }
     //Масив куди потраплять піци які треба показати
     var pizza_shown = [];
 
     Pizza_List.forEach(function(pizza){
         //Якщо піка відповідає фільтру
-        //pizza_shown.push(pizza);
-
-        //TODO: зробити фільтри
+        if(filter == 'vega'){
+            if(pizza.type.toLowerCase().includes('вега'))
+                pizza_shown.push(pizza);
+        } else if(filter in pizza.content)
+            pizza_shown.push(pizza);
     });
 
     //Показати відфільтровані піци
@@ -376,9 +420,9 @@ function initialiseMenu() {
 
 exports.filterPizza = filterPizza;
 exports.initialiseMenu = initialiseMenu;
-},{"../Pizza_List":1,"../Templates":2,"./PizzaCart":4}],6:[function(require,module,exports){
+},{"../Pizza_List":2,"../Templates":3,"./PizzaCart":5}],7:[function(require,module,exports){
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1360,7 +1404,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1529,7 +1573,7 @@ exports.cache = {
   }
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports={
   "name": "ejs",
   "description": "Embedded JavaScript templates",
@@ -1568,7 +1612,7 @@ module.exports={
   }
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -1874,7 +1918,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":11}],11:[function(require,module,exports){
+},{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2060,4 +2104,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[3]);
+},{}]},{},[4]);

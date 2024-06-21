@@ -37,7 +37,7 @@ function addToCart(pizza, size) {
 
 function removeFromCart(cart_item) {
     //Видалити піцу з кошика
-    //TODO: треба зробити
+    Cart = Cart.filter(obj => (obj.pizza != cart_item.pizza) || (obj.size != cart_item.size));
 
     //Після видалення оновити відображення
     updateCart();
@@ -46,7 +46,11 @@ function removeFromCart(cart_item) {
 function initialiseCart() {
     //Фукнція віпрацьвуватиме при завантаженні сторінки
     //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
-    //TODO: ...
+    const storedCart = localStorage.getItem('cart');
+
+    if (storedCart) {
+        Cart = JSON.parse(storedCart);
+    }
 
     updateCart();
 }
@@ -55,11 +59,14 @@ function getPizzaInCart() {
     //Повертає піци які зберігаються в кошику
     return Cart;
 }
+function saveCart(){
+    localStorage.setItem('cart', JSON.stringify(Cart));
+}
 
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
-
+    
     //Очищаємо старі піци в кошику
     $cart.html("");
 
@@ -104,6 +111,7 @@ function updateCart() {
     Cart.forEach(showOnePizzaInCart);
 
     document.querySelector('.cart-count-quantity').textContent = count;
+    saveCart();
 }
 
 exports.removeFromCart = removeFromCart;
