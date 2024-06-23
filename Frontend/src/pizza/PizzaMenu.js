@@ -29,17 +29,21 @@ function showPizzaList(list) {
     }
 
     list.forEach(showOnePizza);
+    document.querySelector(".pizza-count-label .quantity").textContent = list.length;
 }
 
 function filterPizza(filter) {
+    if(filter == 'all'){
+        showPizzaList(Pizza_List);
+        return;
+    }
     //Масив куди потраплять піци які треба показати
     var pizza_shown = [];
 
     Pizza_List.forEach(function(pizza){
         //Якщо піка відповідає фільтру
-        //pizza_shown.push(pizza);
-
-        //TODO: зробити фільтри
+        if(filter in pizza.content)
+            pizza_shown.push(pizza);
     });
 
     //Показати відфільтровані піци

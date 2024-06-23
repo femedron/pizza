@@ -5,14 +5,17 @@
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
     <title>Pizza</title>
 
+    <!-- no favicon-->
+    <link rel="icon" href="data:;base64,=">
     
     <!-- LESS основний файл -->
     <link rel="stylesheet/less" type="text/css" href="assets/less/main.less"/>
     <!-- LESS JavaScript компілятор -->
     <script src="https://cdn.jsdelivr.net/npm/less"></script>
 
-    <!--old disabled JavaScript -->
-    <!--<script type="text/javascript"  src="assets/js/main.js"> </script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script type="text/javascript"  src="assets/js/main.js"> </script>
 </head>
 <body>
     <main>
@@ -43,14 +46,14 @@
                 <span class="quantity">5</span>
             </div>
             <div class="pizza-filter-container">
-                <span class="pizza-filter-option active">Усі</span>
-                <span class="pizza-filter-option">М'ясні</span>
-                <span class="pizza-filter-option">З ананасами</span>
-                <span class="pizza-filter-option">З грибами</span>
-                <span class="pizza-filter-option">З морепродуктами</span>
-                <span class="pizza-filter-option">Вега</span>
+                <span class="pizza-filter-option filter-all active">Усі</span>
+                <span class="pizza-filter-option filter-meat">М'ясні</span>
+                <span class="pizza-filter-option filter-pineapple">З ананасами</span>
+                <span class="pizza-filter-option filter-mushroom">З грибами</span>
+                <span class="pizza-filter-option filter-ocean">З морепродуктами</span>
+                <span class="pizza-filter-option filter-vega">Вега</span>
             </div>
-            <div class="pizza-list">
+            <div class="pizza-list" id="pizza_list">
                 <div class="pizza-item-container">
                     <div class="pizza-item">
                         <div class="image-container">
@@ -320,7 +323,7 @@
         <div class="cart-proceed-container">
             <div class="cart-total-price-container">
                 <span class="cart-total-price-label">Сума замовлення</span> 
-                <span class="cart-total-price">228 грн</span>
+                <span class="cart-total-price">228<span> грн</span></span>
             </div>
             <div class="cart-buy-button-container">
                 <button class="cart-buy-button">Замовити</button>
